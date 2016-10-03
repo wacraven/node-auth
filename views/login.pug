@@ -1,0 +1,10 @@
+extends main.pug
+
+block content
+  h1 #{title}
+  form(method='POST')
+    label(for='email') Email:
+      input(type='email' name='email' placeholder='Email')
+    label(for='password') Password:
+     input(type='password' name='password' placeholder='********')
+    button(type='submit') Login
