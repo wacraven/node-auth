@@ -23,8 +23,23 @@ app.use(({ method, url, headers: { 'user-agent': agent } }, res, next) => {
 })
 
 //middlewares
-app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(session({
+	store: new RedisStore({
+    url: process.env.REDIS_URL || "redis://localhost:7777"
+  }),
+  resave: false,
+  saveUninitialized: false,
+	secret: 'secret'
+}))
+
+app.use((req, res, next) => {
+	app.locals.username = req.session && req.session.username
+	next()
+})
+
+//routers
 app.use(router)
 
 //

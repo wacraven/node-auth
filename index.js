@@ -16,7 +16,7 @@ router.post('/', (req, res, err) => {
     .then((user) => {
       if (user) {
         if (user.password === req.body.password) {
-          // req.session.user = user
+          req.session.user = user
           res.render('index')
         } else {
           console.log(`Login attempt from username: "${req.body.username}": ${chalk.red('Error')}: passwords didn't match`)
@@ -47,7 +47,7 @@ router.post('/register', (req, res, err) => {
       } else {
         User
           .create(req.body)
-          .then(() => res.redirect('./index'))
+          .then(() => res.redirect('/'))
       }
     })
     .catch(err)
@@ -62,6 +62,9 @@ router.post('/index', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) throw err
+  })
   res.render('logout')
 })
 
