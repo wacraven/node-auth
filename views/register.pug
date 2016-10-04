@@ -1,0 +1,11 @@
+extends main.pug
+
+block content
+  h3 Register
+  h6 #{errMsg}
+  form(method='POST')
+    label(for='username') Username:
+    input(type='username' name='username' placeholder='Username')
+    label(for='password') Password:
+    input(type='password' name='password' placeholder='********')
+    button(type='submit') Register
