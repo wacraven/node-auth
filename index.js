@@ -33,23 +33,36 @@ router.post('/', (req, res, err) => {
 )
 
 router.get('/register', (req, res) => {
-  res.render('./register')
+  res.render('register')
 })
 
 
 router.post('/register', (req, res, err) => {
   User
-    .create(req.body)
-    .then(() => res.redirect('./index'))
+    .findOne({username: req.body.username})
+    .then((user) => {
+      if (user) {
+        errMsg = "That username is already in use"
+        res.render('register', {errMsg})
+      } else {
+        User
+          .create(req.body)
+          .then(() => res.redirect('./index'))
+      }
+    })
     .catch(err)
 })
 
 router.get('/index', (req, res) => {
-  res.render('./index')
+  res.render('index')
 })
 
 router.post('/index', (req, res) => {
-  res.render('./logout')
+  res.render('logout')
+})
+
+router.get('/logout', (req, res) => {
+  res.render('logout')
 })
 
 
