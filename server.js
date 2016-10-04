@@ -5,9 +5,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
+const { connect } = require('./database')
+
 const app = express()
+
 const port = process.env.PORT || 3000
-const routes = require('./index')
+const {router} = require('./index')
 
 app.set('port', port)
 app.set('view engine', 'pug')
@@ -21,9 +24,14 @@ app.use(({ method, url, headers: { 'user-agent': agent } }, res, next) => {
 
 //middlewares
 app.use(express.static('public'))
-app.use(routes)
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(router)
 
 //
-app.listen(port, () =>
+connect()
+  .then(() => {
+    app.listen(port, () =>
       console.log(`Listening on port: ${port}`)
-)
+    )
+  })
+  .catch(console.error)
