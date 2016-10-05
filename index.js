@@ -66,6 +66,7 @@ router.post('/index', (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) throw err
+    username = ""
   })
   res.render('logout')
 })
