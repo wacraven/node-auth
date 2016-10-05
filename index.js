@@ -17,7 +17,8 @@ router.post('/', (req, res, err) => {
       if (user) {
         if (user.password === req.body.password) {
           req.session.user = user
-          res.render('index')
+          const username = user.username
+          res.render('index', {username})
         } else {
           console.log(`Login attempt from username: "${req.body.username}": ${chalk.red('Error')}: passwords didn't match`)
           errMsg = "Username or Password didn't match"
