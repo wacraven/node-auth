@@ -5,6 +5,7 @@ const { Router } = require('express')
 const router = Router()
 const User = require('./models/user');
 let errMsg
+let username
 
 router.get('/', (req, res) => {
   res.render('./login')
@@ -17,7 +18,7 @@ router.post('/', (req, res, err) => {
       if (user) {
         if (user.password === req.body.password) {
           req.session.user = user
-          const username = user.username
+          username = user.username
           res.render('index', {username})
         } else {
           console.log(`Login attempt from username: "${req.body.username}": ${chalk.red('Error')}: passwords didn't match`)
@@ -55,7 +56,6 @@ router.post('/register', (req, res, err) => {
 })
 
 router.get('/index', (req, res) => {
-  const username = req.session.user.username
   res.render('index', {username})
 })
 
