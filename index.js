@@ -55,7 +55,8 @@ router.post('/register', (req, res, err) => {
 })
 
 router.get('/index', (req, res) => {
-  res.render('index', {req.session.user.username})
+  const username = req.session.user.username
+  res.render('index', {username})
 })
 
 router.post('/index', (req, res) => {
